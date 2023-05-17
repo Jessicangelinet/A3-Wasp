@@ -186,17 +186,17 @@ class BinarySearchTree(Generic[K, I]):
         """
         Finds the kth smallest value by key in the subtree rooted at current.
         """
-        kth_tree = copy(current)
+        kth_tree = copy(self) #keep making a copy everytime
 
-        if k > kth_tree.subtree_size:
+        if k > current.subtree_size:
             raise KeyError("out of bound")
         
         else: 
             if k == 1:
-                return kth_tree
-            elif k < kth_tree.subtree_size:
-                current_min = self.get_minimal(kth_tree)
-                del_key = current_min.key
-                del kth_tree[del_key]
+                return current
+            elif k < current.subtree_size:
+                current_min = self.get_minimal(current)
+                del_key = current_min.key #want to use getitem here but it returns the value
+                del kth_tree[del_key] 
             else:
-                return self.kth_smallest(k-1,kth_tree)
+                return self.kth_smallest(k-1,current) #bcs in here, the deleted kth_tree isnt used at all
