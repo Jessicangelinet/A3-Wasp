@@ -12,6 +12,7 @@ from typing import TypeVar, Generic
 from node import TreeNode
 import sys
 
+from copy import copy
 
 # generic types
 K = TypeVar('K')
@@ -92,8 +93,10 @@ class BinarySearchTree(Generic[K, I]):
             current = TreeNode(key, item=item)
             self.length += 1
         elif key < current.key:
+            current.subtree_size +=1
             current.left = self.insert_aux(current.left, key, item)
         elif key > current.key:
+            current.subtree_size +=1
             current.right = self.insert_aux(current.right, key, item)
         else:  # key == current.key
             raise ValueError('Inserting duplicate item')
@@ -111,8 +114,10 @@ class BinarySearchTree(Generic[K, I]):
         if current is None:  # key not found
             raise ValueError('Deleting non-existent item')
         elif key < current.key:
+            current.subtree_size -=1
             current.left  = self.delete_aux(current.left, key)
         elif key > current.key:
+            current.subtree_size -=1
             current.right = self.delete_aux(current.right, key)
         else:  # we found our key => do actual deletion
             if self.is_leaf(current):
@@ -139,17 +144,7 @@ class BinarySearchTree(Generic[K, I]):
             It should be a child node having the smallest key among all the
             larger keys.
         """
-        root = current
-        if current is None:
-            return None
-        elif self.is_leaf(current):
-            if current.key > root.key:
-                return current
-            else:
-                return current
-        else:
-            self.get_successor(current.right)
-            self.get_successor(current.left)
+        return self.get_minimal(current.right)
 
     def get_minimal(self, current: TreeNode) -> TreeNode:
         """
@@ -191,4 +186,17 @@ class BinarySearchTree(Generic[K, I]):
         """
         Finds the kth smallest value by key in the subtree rooted at current.
         """
-        raise NotImplementedError()
+        kth_tree = copy(current)
+
+        if k > kth_tree.subtree_size:
+            raise KeyError("out of bound")
+        
+        else: 
+            if k == 1:
+                return kth_tree
+            elif k < kth_tree.subtree_size:
+                current_min = self.get_minimal(kth_tree)
+                del_key = current_min.key
+                del kth_tree[del_key]
+            else:
+                return self.kth_smallest(k-1,kth_tree)
