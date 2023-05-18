@@ -31,7 +31,6 @@ class BinarySearchTree(Generic[K, I]):
 
         self.root = None
         self.length = 0
-        self.global_indexed_nodes = []
 
     def is_empty(self) -> bool:
         """
@@ -82,9 +81,6 @@ class BinarySearchTree(Generic[K, I]):
     def __setitem__(self, key: K, item: I) -> None:
         self.root = self.insert_aux(self.root, key, item)
 
-        #arranging the global index after insertion
-        # self.inorder_traversal(self.root)
-
     def insert_aux(self, current: TreeNode, key: K, item: I) -> TreeNode:
         """
             Attempts to insert an item into the tree, it uses the Key to insert it
@@ -108,9 +104,6 @@ class BinarySearchTree(Generic[K, I]):
 
     def __delitem__(self, key: K) -> None:
         self.root = self.delete_aux(self.root, key)
-
-        #arranging the global index after deletion
-        # self.inorder_traversal(self.root)
 
     def delete_aux(self, current: TreeNode, key: K) -> TreeNode:
         """
@@ -206,11 +199,11 @@ class BinarySearchTree(Generic[K, I]):
         if k > current.subtree_size:
             raise KeyError("out of bound")
         
-        else:    
-            globalIndexed_nodes = []
-            self.inorder_traversal(current, globalIndexed_nodes)
+        else:
+            global_indexed_nodes = []
+            self.inorder_traversal(current, global_indexed_nodes)
             
-            return globalIndexed_nodes[k-1]
+            return global_indexed_nodes[k-1] #because index starts from 0 that corresponds to 1st smallest
 
 
         """kth_tree = copy(self) #keep making a copy everytime #O(n)

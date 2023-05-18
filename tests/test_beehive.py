@@ -43,7 +43,7 @@ class TestBeehiveSelector(unittest.TestCase):
             80, # b2
             75, # b1
         ]
-        self.assertEqual(len(all_emeralds), len(expected))
+        self.assertEqual(len(all_emeralds), len(expected)) #i pass this tho??
         for actual, ex in zip(all_emeralds, expected):
             self.assertAlmostEqual(actual, ex, 0)
         

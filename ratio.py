@@ -9,16 +9,23 @@ I = TypeVar("I")
 class Percentiles(Generic[T]):
 
     def __init__(self) -> None:
-        raise NotImplementedError()
+        self.points_tree = BinarySearchTree()
     
     def add_point(self, item: T):
-        raise NotImplementedError()
+        self.points_tree[item] = item
     
     def remove_point(self, item: T):
-        raise NotImplementedError()
+        del self.points_tree[item]
 
     def ratio(self, x, y):
-        raise NotImplementedError()
+        percent_X = ceil(x/100 * len(self.points_tree))
+        percent_Y = ceil(y/100 * len(self.points_tree))
+
+        res = []
+        self.points_tree.inorder_traversal(self.points_tree.root, res) #dk if we can do dis tho lmao
+        res = res[percent_X:-percent_Y]
+        result = [point.key for point in res]
+        return result
 
 if __name__ == "__main__":
     points = list(range(50))
