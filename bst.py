@@ -31,6 +31,7 @@ class BinarySearchTree(Generic[K, I]):
 
         self.root = None
         self.length = 0
+        self.global_indexed_nodes = []
 
     def is_empty(self) -> bool:
         """
@@ -81,6 +82,9 @@ class BinarySearchTree(Generic[K, I]):
     def __setitem__(self, key: K, item: I) -> None:
         self.root = self.insert_aux(self.root, key, item)
 
+        #arranging the global index after insertion
+        # self.inorder_traversal(self.root)
+
     def insert_aux(self, current: TreeNode, key: K, item: I) -> TreeNode:
         """
             Attempts to insert an item into the tree, it uses the Key to insert it
@@ -104,6 +108,9 @@ class BinarySearchTree(Generic[K, I]):
 
     def __delitem__(self, key: K) -> None:
         self.root = self.delete_aux(self.root, key)
+
+        #arranging the global index after deletion
+        # self.inorder_traversal(self.root)
 
     def delete_aux(self, current: TreeNode, key: K) -> TreeNode:
         """
@@ -182,11 +189,38 @@ class BinarySearchTree(Generic[K, I]):
             real_prefix = prefix[:-2] + final
             print('{0}'.format(real_prefix), file=to)
 
+    def inorder_traversal(self, root): #O(D)
+        if root is None:
+            return
+
+        self.inorder_traversal(root.left)  # Recursively traverse the left subtree
+        self.global_indexed_nodes.append(root)  # Visit the current node
+
+        if root.right:
+            self.inorder_traversal(root.right)  # Recursively traverse the right subtree
+    
     def kth_smallest(self, k: int, current: TreeNode) -> TreeNode:
         """
         Finds the kth smallest value by key in the subtree rooted at current.
         """
-        kth_tree = copy(self) #keep making a copy everytime
+        self.inorder_traversal(self.root)
+        if k > current.subtree_size:
+            raise KeyError("out of bound")
+        
+        else:
+            if self.is_leaf(current): #the if check ensures leaves only have subtree size 1
+                return current
+            
+            if current == self.root:
+                return self.global_indexed_nodes[k-1]
+            
+            current_index = self.global_indexed_nodes.index(current)
+            return self.global_indexed_nodes[abs(k-current_index)]
+
+
+
+        """kth_tree = copy(self) #keep making a copy everytime #O(n)
+        copy_current = copy(current)
 
         if k > current.subtree_size:
             raise KeyError("out of bound")
@@ -194,9 +228,9 @@ class BinarySearchTree(Generic[K, I]):
         else: 
             if k == 1:
                 return current
-            elif k < current.subtree_size:
-                current_min = self.get_minimal(current)
-                del_key = current_min.key #want to use getitem here but it returns the value
-                del kth_tree[del_key] 
+            # elif k < current.subtree_size:
+            #     current_min = self.get_minimal(current)
+            #     del_key = current_min.key #want to use getitem here but it returns the value
+            #     del kth_tree[del_key] 
             else:
-                return self.kth_smallest(k-1,current) #bcs in here, the deleted kth_tree isnt used at all
+                return self.kth_smallest(k-1,current) #bcs in here, the deleted kth_tree isnt used at all"""
