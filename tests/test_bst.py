@@ -67,9 +67,6 @@ class BSTTest(unittest.TestCase):
         BST[80] = 6
 
         kth = BST.kth_smallest(3, BST.root)
-        node_name = [node.key for node in BST.global_indexed_nodes]
-        print(node_name)
-        
         self.assertEqual(kth.key, 80)
         self.assertEqual(kth.item, 6)
 

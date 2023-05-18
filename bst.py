@@ -189,34 +189,28 @@ class BinarySearchTree(Generic[K, I]):
             real_prefix = prefix[:-2] + final
             print('{0}'.format(real_prefix), file=to)
 
-    def inorder_traversal(self, root): #O(D)
+    def inorder_traversal(self, root, ordered_list): #O(D)
         if root is None:
             return
 
-        self.inorder_traversal(root.left)  # Recursively traverse the left subtree
-        self.global_indexed_nodes.append(root)  # Visit the current node
+        self.inorder_traversal(root.left,ordered_list)  # Recursively traverse the left subtree
+        ordered_list.append(root)  # Visit the current node
 
         if root.right:
-            self.inorder_traversal(root.right)  # Recursively traverse the right subtree
+            self.inorder_traversal(root.right,ordered_list)  # Recursively traverse the right subtree
     
     def kth_smallest(self, k: int, current: TreeNode) -> TreeNode:
         """
         Finds the kth smallest value by key in the subtree rooted at current.
         """
-        self.inorder_traversal(self.root)
         if k > current.subtree_size:
             raise KeyError("out of bound")
         
-        else:
-            if self.is_leaf(current): #the if check ensures leaves only have subtree size 1
-                return current
+        else:    
+            globalIndexed_nodes = []
+            self.inorder_traversal(current, globalIndexed_nodes)
             
-            if current == self.root:
-                return self.global_indexed_nodes[k-1]
-            
-            current_index = self.global_indexed_nodes.index(current)
-            return self.global_indexed_nodes[abs(k-current_index)]
-
+            return globalIndexed_nodes[k-1]
 
 
         """kth_tree = copy(self) #keep making a copy everytime #O(n)
