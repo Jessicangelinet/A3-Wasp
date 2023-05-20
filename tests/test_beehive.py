@@ -19,6 +19,8 @@ class TestBeehiveSelector(unittest.TestCase):
         )
         for hive in [b1, b2, b3, b4, b5]:
             s.add_beehive(hive)
+
+            print(hive.get_emerald(), "💎")
         
         all_emeralds = []
         for _ in range(15):
@@ -43,7 +45,8 @@ class TestBeehiveSelector(unittest.TestCase):
             80, # b2
             75, # b1
         ]
-        self.assertEqual(len(all_emeralds), len(expected)) #i pass this??
+        self.assertEqual(len(all_emeralds), len(expected))
+        print(all_emeralds, expected)
         for actual, ex in zip(all_emeralds, expected):
             self.assertAlmostEqual(actual, ex, 0)
         

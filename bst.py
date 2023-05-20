@@ -182,7 +182,7 @@ class BinarySearchTree(Generic[K, I]):
             real_prefix = prefix[:-2] + final
             print('{0}'.format(real_prefix), file=to)
 
-    def inorder_traversal(self, root, ordered_list): #O(D)
+    def inorder_traversal(self, root, ordered_list): 
         if root is None:
             return
 
