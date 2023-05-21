@@ -11,10 +11,13 @@ class BeeNode:
     key: Point
     item: I
     subtree_size: int = 1
+    child_nodes = [None] * 8
+
+    def set_subtree_size(self, subtree_size: int) -> None:
+        self.subtree_size = subtree_size
 
     def get_child_for_key(self, point: Point) -> BeeNode | None:
         raise NotImplementedError()
-
 
 class ThreeDeeBeeTree(Generic[I]):
     """ 3️⃣🇩🐝🌳 tree. """
@@ -58,17 +61,58 @@ class ThreeDeeBeeTree(Generic[I]):
         raise NotImplementedError()
 
     def __setitem__(self, key: Point, item: I) -> None:
-        self.root = self.insert_aux(self.root, key, item)
-
-    def insert_aux(self, current: BeeNode, key: Point, item: I) -> BeeNode:
+        self.root=self.insert_aux(self.root, key, item)
+        print (self.root.child_nodes)
+    def insert_aux(self, current: BeeNode, key: Point, item: I):
         """
             Attempts to insert an item into the tree, it uses the Key to insert it
         """
-        raise NotImplementedError()
-
+        if current is None:  # base case: at the leaf
+            current = BeeNode(key, item=item)
+            self.length += 1
+        elif key != current.key:
+            octant = self.octant_check(key)
+            if current.child_nodes[octant] == None:
+                current.child_nodes[octant] = BeeNode(key, item=item)
+            else:
+                self.insert_aux(current.child_nodes[octant], key, item)
+        else:  # key == current.key
+            raise ValueError('Inserting duplicate item')
+        return current
+        
     def is_leaf(self, current: BeeNode) -> bool:
         """ Simple check whether or not the node is a leaf. """
         raise NotImplementedError()
+
+    def octant_check (self,key: Point) -> int:
+        check_list = []
+        for point in range(len(key)):
+            if self.root.key[point] >= key[point]:
+                check_list.append(True)
+            else:
+                check_list.append(False)
+
+        if check_list == [False, False, False]:
+            return 1
+        elif check_list == [True, False, False]:
+            return 2
+        elif check_list == [False, True, False]:
+            return 3
+        elif check_list == [True, True, False]:
+            return 4
+        elif check_list == [False, False, True]:
+            return 5
+        elif check_list == [True, False, True]:
+            return 6
+        elif check_list == [False, True, True]:
+            return 7
+        elif check_list == [True, True, True]:
+            return 8
+ 
+ 
+
+        
+
 
 if __name__ == "__main__":
     tdbt = ThreeDeeBeeTree()
