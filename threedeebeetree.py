@@ -1,6 +1,7 @@
 from __future__ import annotations
 from typing import Generic, TypeVar, Tuple
 from dataclasses import dataclass, field
+from referential_array import ArrayR
 
 I = TypeVar('I')
 Point = Tuple[int, int, int]
@@ -11,13 +12,13 @@ class BeeNode:
     key: Point
     item: I
     subtree_size: int = 1
-    child_nodes = [None] * 8
+    child_nodes = ArrayR(8)
 
     def set_subtree_size(self, subtree_size: int) -> None:
         self.subtree_size = subtree_size
 
     def get_child_for_key(self, point: Point) -> BeeNode | None:
-        raise NotImplementedError()
+        raise NotImplementedError
 
 class ThreeDeeBeeTree(Generic[I]):
     """ 3️⃣🇩🐝🌳 tree. """
@@ -61,58 +62,58 @@ class ThreeDeeBeeTree(Generic[I]):
         raise NotImplementedError()
 
     def __setitem__(self, key: Point, item: I) -> None:
-        self.root=self.insert_aux(self.root, key, item)
-        print (self.root.child_nodes)
+        current = self.insert_aux(self.root, key, item)
+        if self.root == None:
+            self.root = current
+        for i in range(len(self.root.child_nodes)):
+            print(self.root.child_nodes[i] , i)
+            
     def insert_aux(self, current: BeeNode, key: Point, item: I):
         """
             Attempts to insert an item into the tree, it uses the Key to insert it
         """
         if current is None:  # base case: at the leaf
-            current = BeeNode(key, item=item)
+            current = BeeNode(key, item)
             self.length += 1
         elif key != current.key:
-            octant = self.octant_check(key)
-            if current.child_nodes[octant] == None:
-                current.child_nodes[octant] = BeeNode(key, item=item)
-            else:
-                self.insert_aux(current.child_nodes[octant], key, item)
-        else:  # key == current.key
-            raise ValueError('Inserting duplicate item')
+            octant = self.octant_check(current, key)
+            print(octant)
+            current.subtree_size += 1
+            current.child_nodes[octant] = self.insert_aux(current.child_nodes[octant], key, item)
+        elif key == current.key:  # key == current.key
+            raise ValueError('Inserting duplicate item', key, item)
         return current
         
     def is_leaf(self, current: BeeNode) -> bool:
         """ Simple check whether or not the node is a leaf. """
         raise NotImplementedError()
 
-    def octant_check (self,key: Point) -> int:
+    def octant_check (self,current: BeeNode, key: Point) -> int:
         check_list = []
-        for point in range(len(key)):
-            if self.root.key[point] >= key[point]:
+        for points in range(len(key)):
+            if key[points] >= current.key[points]:
                 check_list.append(True)
             else:
                 check_list.append(False)
 
         if check_list == [False, False, False]:
-            return 1
+            return 0
         elif check_list == [True, False, False]:
-            return 2
+            return 1
         elif check_list == [False, True, False]:
-            return 3
+            return 2
         elif check_list == [True, True, False]:
-            return 4
+            return 3
         elif check_list == [False, False, True]:
-            return 5
+            return 4
         elif check_list == [True, False, True]:
-            return 6
+            return 5
         elif check_list == [False, True, True]:
-            return 7
+            return 6
         elif check_list == [True, True, True]:
-            return 8
- 
- 
-
-        
-
+            return 7
+        else:
+            return KeyError(key)
 
 if __name__ == "__main__":
     tdbt = ThreeDeeBeeTree()
