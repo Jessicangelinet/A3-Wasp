@@ -22,11 +22,11 @@ class Percentiles(Generic[T]):
         percent_Y = ceil(y/100 * len(self.points_tree))
 
         res = []
-        self.points_tree.inorder_traversal(self.points_tree.root, res) #dk if we can do dis tho lmao
-        res = res[percent_X:-percent_Y]
+        self.points_tree.inorder_traversal_limits_reversed(self.points_tree.root, res, percent_X, percent_Y) #dk if we can do dis tho lmao
+        # res = res[percent_X:-percent_Y]
+        print(res)
         result = [point.key for point in res]
         return result
-
 if __name__ == "__main__":
     points = list(range(50))
     import random

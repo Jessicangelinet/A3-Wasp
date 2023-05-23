@@ -14,7 +14,9 @@ class Beehive:
     volume: int = 0
 
     def get_emerald(self):
-        return min(self.capacity,self.volume) * self.nutrient_factor
+        # if self.volume == 0:
+        #     return self.nutrient_factor
+        return min(self.capacity, self.volume) * self.nutrient_factor
 
     def __lt__(self, other):
         """
@@ -77,26 +79,25 @@ class BeehiveSelector:
         self.BeehiveHeap = MaxHeap(max_beehives)
 
     def set_all_beehives(self, hive_list: list[Beehive]):
-        self.BeehiveHeap.heapify(hive_list) #heapify add the method int he heap.py
+        while self.BeehiveHeap:
+            self.BeehiveHeap.get_max
+        self.BeehiveHeap.heapify(hive_list)
     
     def add_beehive(self, hive: Beehive):
-        self.BeehiveHeap.add(hive)
-        # print(self.BeehiveHeap.get_max()) #what this works tho
+        if hive.volume != 0:
+            self.BeehiveHeap.add(hive)
     
     def harvest_best_beehive(self):
         if self.BeehiveHeap.length != 0:
-            # print(self.BeehiveHeap.get_max())
-            # return self.BeehiveHeap.get_max().get_emerald()
-            # ind = self.BeehiveHeap.largest_child(1)
-            # print([hive.get_emerald() for hive in self.BeehiveHeap.the_array if hive is not None])
-            # return self.BeehiveHeap.the_array[ind-1].get_emerald()
             current_largest = self.BeehiveHeap.get_max()
-
-            if current_largest.capacity > current_largest.volume:
-                current_largest.volume = 0
-            else: 
-                new_volume = current_largest.volume - current_largest.capacity
-                current_largest.volume = new_volume
-                self.BeehiveHeap.add(current_largest)
+            emerald = current_largest.get_emerald()
             
-            return current_largest.get_emerald()
+            if current_largest.capacity <= current_largest.volume:
+                
+                new_value = current_largest
+                new_volume = new_value.volume - new_value.capacity
+                new_value.volume = new_volume
+
+                self.add_beehive(new_value)
+            return emerald
+            

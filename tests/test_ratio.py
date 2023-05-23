@@ -35,7 +35,7 @@ class RatioTest(unittest.TestCase):
         p.remove_point(92)
 
         res = p.ratio(13, 10)
-        print("🤨",p.points_tree.root.left)
+        print("🤨",res)
         self.assertSetEqual(set(res), {15, 16, 82, 87, 91})
 
         p.remove_point(82)

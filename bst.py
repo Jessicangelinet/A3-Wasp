@@ -185,12 +185,12 @@ class BinarySearchTree(Generic[K, I]):
     def inorder_traversal(self, root, ordered_list): 
         if root is None:
             return
-
+        
         self.inorder_traversal(root.left,ordered_list)  # Recursively traverse the left subtree
+
         ordered_list.append(root)  # Visit the current node
 
-        if root.right:
-            self.inorder_traversal(root.right,ordered_list)  # Recursively traverse the right subtree
+        self.inorder_traversal(root.right,ordered_list)  # Recursively traverse the right subtree
     
     def kth_smallest(self, k: int, current: TreeNode) -> TreeNode:
         """
@@ -206,18 +206,39 @@ class BinarySearchTree(Generic[K, I]):
             return global_indexed_nodes[k-1] #because index starts from 0 that corresponds to 1st smallest
 
 
-        """kth_tree = copy(self) #keep making a copy everytime #O(n)
-        copy_current = copy(current)
-
-        if k > current.subtree_size:
-            raise KeyError("out of bound")
+    def inorder_traversal_limits(self, root, ordered_list, start, end): 
         
-        else: 
-            if k == 1:
-                return current
-            # elif k < current.subtree_size:
-            #     current_min = self.get_minimal(current)
-            #     del_key = current_min.key #want to use getitem here but it returns the value
-            #     del kth_tree[del_key] 
-            else:
-                return self.kth_smallest(k-1,current) #bcs in here, the deleted kth_tree isnt used at all"""
+        if root is None:
+            return
+
+        print(">>>", root.subtree_size)
+
+        if root.subtree_size > start:
+            self.inorder_traversal_limits(root.left,ordered_list, start, end)  # Recursively traverse the left subtree
+
+        # if  root.subtree_size >= start and root.subtree_size <= end:
+        #     print("goes to append")
+            ordered_list.append(root)  # Visit the current node
+
+        if root.subtree_size > end:
+            self.inorder_traversal_limits(root.right,ordered_list, start, end)  # Recursively traverse the right subtree
+            # ordered_list.append(root)
+
+
+    def inorder_traversal_limits_reversed(self, root, ordered_list, start, end): 
+        
+        if root is None:
+            return
+
+        print(">>>", root.subtree_size)
+
+        if root.subtree_size > end:
+            self.inorder_traversal_limits_reversed(root.right,ordered_list, start, end)  # Recursively traverse the left subtree
+
+        # if  root.subtree_size >= start and root.subtree_size <= end:
+        #     print("goes to append")
+            ordered_list.append(root)  # Visit the current node
+
+        # if root.subtree_size > start:
+        #     self.inorder_traversal_limits_reversed(root.left,ordered_list, start, end)  # Recursively traverse the right subtree
+            # ordered_list.append(root)
