@@ -17,7 +17,7 @@ class BeeNode:
         self.subtree_size = subtree_size
 
     def get_child_for_key(self, point: Point) -> BeeNode | None:
-        raise NotImplementedError()
+        raise NotImplementedError
 
 class ThreeDeeBeeTree(Generic[I]):
     """ 3️⃣🇩🐝🌳 tree. """
@@ -58,7 +58,18 @@ class ThreeDeeBeeTree(Generic[I]):
         return node.item
 
     def get_tree_node_by_key(self, key: Point) -> BeeNode:
-        raise NotImplementedError()
+        return self.get_tree_node_by_key_aux(self.root, key)
+    
+    def get_tree_node_by_key_aux(self, current: BeeNode, key: Point) -> BeeNode:
+        if current is None:
+            raise KeyError('Key not found: {0}'.format(key))
+        elif key == current.key:
+            return current
+        else:
+            octant = self.octant_check(current, key)
+            if current.child_nodes[octant].key == key:
+                return current.child_nodes[octant]
+            
 
     def __setitem__(self, key: Point, item: I) -> None:
         self.root=self.insert_aux(self.root, key, item)
@@ -69,16 +80,17 @@ class ThreeDeeBeeTree(Generic[I]):
             Attempts to insert an item into the tree, it uses the Key to insert it
         """
         if current is None:  # base case: at the leaf
-            current = BeeNode(key, item=item)
+            current = BeeNode(key, item)
             self.length += 1
+
         elif key != current.key:
-            octant = self.octant_check(key)
-            if current.child_nodes[octant] == None:
-                current.child_nodes[octant] = BeeNode(key, item=item)
-            else:
-                self.insert_aux(current.child_nodes[octant], key, item)
-        else:  # key == current.key
-            raise ValueError('Inserting duplicate item')
+            octant = self.octant_check(current, key)
+            print(octant)
+            current.subtree_size += 1
+            current.child_nodes[octant] = self.insert_aux(current.child_nodes[octant], key, item)
+
+        elif key == current.key:  # key == current.key
+            raise ValueError('Inserting duplicate item', key, item)
         return current
         
     def is_leaf(self, current: BeeNode) -> bool:
