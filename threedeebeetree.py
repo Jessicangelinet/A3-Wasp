@@ -1,18 +1,18 @@
 from __future__ import annotations
 from typing import Generic, TypeVar, Tuple
 from dataclasses import dataclass, field
+from referential_array import ArrayR
 
 I = TypeVar('I')
 Point = Tuple[int, int, int]
 
-@dataclass
 class BeeNode:
 
-    key: Point
-    item: I
-    subtree_size: int = 1
-    child_nodes = [None] * 8
-
+    def __init__(self, key: Point, item: item):
+        self.key: Point = key
+        self.item: I = item
+        self.subtree_size: int = 1
+        self.child_nodes: ArrayR = ArrayR(8)
     def set_subtree_size(self, subtree_size: int) -> None:
         self.subtree_size = subtree_size
 
@@ -62,7 +62,8 @@ class ThreeDeeBeeTree(Generic[I]):
 
     def __setitem__(self, key: Point, item: I) -> None:
         self.root=self.insert_aux(self.root, key, item)
-        print (self.root.child_nodes)
+        for i in range(len(self.root.child_nodes)):
+           print (self.root.child_nodes[i])
     def insert_aux(self, current: BeeNode, key: Point, item: I):
         """
             Attempts to insert an item into the tree, it uses the Key to insert it
@@ -85,34 +86,26 @@ class ThreeDeeBeeTree(Generic[I]):
         raise NotImplementedError()
 
     def octant_check (self,key: Point) -> int:
-        check_list = []
-        for point in range(len(key)):
-            if self.root.key[point] >= key[point]:
-                check_list.append(True)
-            else:
-                check_list.append(False)
+        x = key[0]
+        y = key[1]
+        z = key[2]
 
-        if check_list == [False, False, False]:
-            return 1
-        elif check_list == [True, False, False]:
-            return 2
-        elif check_list == [False, True, False]:
-            return 3
-        elif check_list == [True, True, False]:
-            return 4
-        elif check_list == [False, False, True]:
-            return 5
-        elif check_list == [True, False, True]:
-            return 6
-        elif check_list == [False, True, True]:
+        if x >= 0 and y >= 0 and z >= 0:
             return 7
-        elif check_list == [True, True, True]:
-            return 8
- 
- 
-
-        
-
+        elif x <= 0 and y >= 0 and z >= 0:
+            return 6
+        elif x <= 0 and y <= 0 and z >= 0:
+            return 5
+        elif x >= 0 and y <= 0 and z >= 0:
+            return 4
+        elif x >= 0 and y >= 0 and z <= 0:
+            return 3
+        elif x <= 0 and y >= 0 and z <= 0:
+            return 2
+        elif x <= 0 and y <= 0 and z <= 0:
+            return 1
+        elif x >= 0 and y <= 0 and z <= 0:
+            return 0
 
 if __name__ == "__main__":
     tdbt = ThreeDeeBeeTree()
