@@ -69,6 +69,8 @@ class ThreeDeeBeeTree(Generic[I]):
             octant = self.octant_check(current, key)
             if current.child_nodes[octant].key == key:
                 return current.child_nodes[octant]
+            else:
+                self.get_tree_node_by_key_aux(current.child_nodes[octant], key)
             
 
     def __setitem__(self, key: Point, item: I) -> None:
@@ -85,7 +87,6 @@ class ThreeDeeBeeTree(Generic[I]):
 
         elif key != current.key:
             octant = self.octant_check(current, key)
-            print(octant)
             current.subtree_size += 1
             current.child_nodes[octant] = self.insert_aux(current.child_nodes[octant], key, item)
 
@@ -97,26 +98,23 @@ class ThreeDeeBeeTree(Generic[I]):
         """ Simple check whether or not the node is a leaf. """
         raise NotImplementedError()
 
-    def octant_check (self,key: Point) -> int:
-        x = key[0]
-        y = key[1]
-        z = key[2]
+    def octant_check (self, current: BeeNode, key: Point) -> int:
 
-        if x >= 0 and y >= 0 and z >= 0:
+        if key[0] >= current.key[0] and key[1] >= current.key[1] and key[2] >= current.key[2]:
             return 7
-        elif x <= 0 and y >= 0 and z >= 0:
+        elif key[0] <= current.key[0] and key[1] >= current.key[1] and key[2] >= current.key[2]:
             return 6
-        elif x <= 0 and y <= 0 and z >= 0:
+        elif key[0] <= current.key[0] and key[1] <= current.key[1] and key[2] >= current.key[2]:
             return 5
-        elif x >= 0 and y <= 0 and z >= 0:
+        elif key[0] >= current.key[0] and key[1] <= current.key[1] and key[2] >= current.key[2]:
             return 4
-        elif x >= 0 and y >= 0 and z <= 0:
+        elif key[0] >= current.key[0] and key[1] >= current.key[1] and key[2] <= current.key[2]:
             return 3
-        elif x <= 0 and y >= 0 and z <= 0:
+        elif key[0] <= current.key[0] and key[1] >= current.key[1] and key[2] <= current.key[2]:
             return 2
-        elif x <= 0 and y <= 0 and z <= 0:
+        elif key[0] <= current.key[0] and key[1] <= current.key[1] and key[2] <= current.key[2]:
             return 1
-        elif x >= 0 and y <= 0 and z <= 0:
+        elif key[0] >= current.key[0] and key[1] <= current.key[1] and key[2] <= current.key[2]:
             return 0
 
 if __name__ == "__main__":
