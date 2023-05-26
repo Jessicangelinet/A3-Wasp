@@ -121,4 +121,5 @@ class TestBalancing(unittest.TestCase):
             tdbt[p] = i
         
         ratio, smaller, axis = collect_worst_ratio(tdbt.root)
+        print("ratio 1:",ratio)
         self.assertLessEqual(ratio, 7, f"Axis {axis} has ratio 1:{ratio}.")
