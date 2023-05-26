@@ -251,18 +251,17 @@ class BinarySearchTree(Generic[K, I]):
 
 
     def inorder_limit(self, root, ordered_list, start, end):
-        if root is None:
-            return
+        if root:
     
-        if root.key > start:
-            print(">")
-            self.inorder_limit(root.left,ordered_list, start, end)
+            if root.key > start:
+                print(">")
+                self.inorder_limit(root.left,ordered_list, start, end)
 
-        elif root.key > start and root.key < end:
-            print("goes here")
-            ordered_list.append(root)
+            if start <= root.key <= end:
+                print("goes here")
+                ordered_list.append(root)
 
-        elif root.key < end:
-            print("<")
-            self.inorder_limit(root.right,ordered_list, start, end)
+            if root.key < end:
+                print("<")
+                self.inorder_limit(root.right,ordered_list, start, end)
             
