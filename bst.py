@@ -192,7 +192,7 @@ class BinarySearchTree(Generic[K, I]):
 
         self.inorder_traversal(root.right,ordered_list)  # Recursively traverse the right subtree
     
-    def kth_smallest(self, k: int, current: TreeNode) -> TreeNode:
+    def kth_smallest(self, k: int, current: TreeNode, is_smallest = True) -> TreeNode:
         """
         Finds the kth smallest value by key in the subtree rooted at current.
         """
@@ -202,8 +202,11 @@ class BinarySearchTree(Generic[K, I]):
         else:
             global_indexed_nodes = []
             self.inorder_traversal(current, global_indexed_nodes)
-            
-            return global_indexed_nodes[k-1] #because index starts from 0 that corresponds to 1st smallest
+
+            index = k-1
+            if is_smallest:
+                return global_indexed_nodes[index] #because index starts from 0 that corresponds to 1st smallest
+            return global_indexed_nodes[-index]
 
 
     def inorder_traversal_limits(self, root, ordered_list, start, end): 
@@ -244,3 +247,22 @@ class BinarySearchTree(Generic[K, I]):
         # if root.subtree_size > start:
         #     self.inorder_traversal_limits_reversed(root.left,ordered_list, start, end)  # Recursively traverse the right subtree
             # ordered_list.append(root)
+
+
+
+    def inorder_limit(self, root, ordered_list, start, end):
+        if root is None:
+            return
+    
+        if root.key > start:
+            print(">")
+            self.inorder_limit(root.left,ordered_list, start, end)
+
+        elif root.key > start and root.key < end:
+            print("goes here")
+            ordered_list.append(root)
+
+        elif root.key < end:
+            print("<")
+            self.inorder_limit(root.right,ordered_list, start, end)
+            

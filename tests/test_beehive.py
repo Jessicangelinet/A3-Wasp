@@ -43,11 +43,13 @@ class TestBeehiveSelector(unittest.TestCase):
             80, # b2
             75, # b1
         ]
-        # self.assertEqual(len(all_emeralds), len(expected))
-        print(all_emeralds, expected)
-        # for actual, ex in zip(all_emeralds, expected):
-        #     self.assertAlmostEqual(actual, ex, 0)
-        s.set_all_beehives([b1, b2, b3, b4, b5])
+        self.assertEqual(len(all_emeralds), len(expected))
+        # print(all_emeralds, expected)
+        for actual, ex in zip(all_emeralds, expected):
+            self.assertAlmostEqual(actual, ex, 0)
+
+
+        # s.set_all_beehives([b1, b2, b3, b4, b5])
         # print(len(s.BeehiveHeap))
         # for hive in range(s.BeehiveHeap.length):
         #     print(s.harvest_best_beehive())

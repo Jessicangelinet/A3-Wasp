@@ -10,9 +10,20 @@ from referential_array import ArrayR, T
 class MaxHeap(Generic[T]):
     MIN_CAPACITY = 1
 
-    def __init__(self, max_size: int) -> None:
-        self.length = 0
+    def __init__(self, max_size: int, an_array: ArrayR[T] = None, verbose=False) -> None:
+        # self.length = 0
+        # self.the_array = ArrayR(max(self.MIN_CAPACITY, max_size) + 1)
+        if an_array is None:
+            self.length = 0 # missing on page 126 of 20-Heaps2.pdf
+        else:
+            self.length = max_size = len(an_array) 
+        
+        # allocate the array
         self.the_array = ArrayR(max(self.MIN_CAPACITY, max_size) + 1)
+        
+        # if an_array is given then apply bottom-up heap construction
+        if an_array:
+            self.heapify(an_array, verbose)
 
     def __len__(self) -> int:
         return self.length

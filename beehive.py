@@ -77,11 +77,10 @@ class BeehiveSelector:
 
     def __init__(self, max_beehives: int):
         self.BeehiveHeap = MaxHeap(max_beehives)
+        self.max = max_beehives
 
     def set_all_beehives(self, hive_list: list[Beehive]):
-        while self.BeehiveHeap:
-            self.BeehiveHeap.get_max
-        self.BeehiveHeap.heapify(hive_list)
+        self.BeehiveHeap = MaxHeap(self.max, hive_list)
     
     def add_beehive(self, hive: Beehive):
         if hive.volume != 0:
