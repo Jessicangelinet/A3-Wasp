@@ -6,13 +6,13 @@ from referential_array import ArrayR
 I = TypeVar('I')
 Point = Tuple[int, int, int]
 
+@dataclass
 class BeeNode:
+    key: Point
+    item: I 
+    subtree_size: int = 1
+    child_nodes: ArrayR = field(default_factory=lambda: ArrayR(8))
 
-    def __init__(self, key: Point, item: item):
-        self.key: Point = key
-        self.item: I = item
-        self.subtree_size: int = 1
-        self.child_nodes: ArrayR = ArrayR(8)
     def set_subtree_size(self, subtree_size: int) -> None:
         self.subtree_size = subtree_size
 
