@@ -97,7 +97,8 @@ class MaxHeap(Generic[T]):
         Within the loop, the sink operation has a time complexity of O(log n), 
         as it involves swapping elements and moving down the tree to maintain the heap property.
         """
-
+        # replace the array
+        
         # copy an_array to self.the_array (shift by 1)
         for i in range(self.length):
             self.the_array[i + 1] = an_array[i]
