@@ -11,14 +11,15 @@ class MaxHeap(Generic[T]):
     MIN_CAPACITY = 1
 
     def __init__(self, max_size: int, an_array: ArrayR[T] = None, verbose=False) -> None:
-        # self.length = 0
-        # self.the_array = ArrayR(max(self.MIN_CAPACITY, max_size) + 1)
+        """
+        :complexity best: = worst: O(n) initialising ArrayR or apply bottom-up heap construction using self.heapify()
+        where n is the max(self.MIN_CAPACITY, max_size) + 1
+            """
         if an_array is None:
-            self.length = 0 # missing on page 126 of 20-Heaps2.pdf
+            self.length = 0 
         else:
             self.length = max_size = len(an_array) 
         
-        # allocate the array
         self.the_array = ArrayR(max(self.MIN_CAPACITY, max_size) + 1)
         
         # if an_array is given then apply bottom-up heap construction
