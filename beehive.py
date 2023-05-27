@@ -13,9 +13,7 @@ class Beehive:
     nutrient_factor: int
     volume: int = 0
 
-    def get_emerald(self):
-        # if self.volume == 0:
-        #     return self.nutrient_factor
+    def get_emerald(self) -> int:
         return min(self.capacity, self.volume) * self.nutrient_factor
 
     def __lt__(self, other):
@@ -45,8 +43,7 @@ class Beehive:
         Defines behavior for the greater-than operator, > between self and other
 
         :complexity:
-        :best = O(1) + O(comp)
-        :worst: O(n) + O(comp), n is the len(.name)
+        :best == worst = O(1) + O(comp) 
         """
         if isinstance(other, Beehive):
             return self.get_emerald() > other.get_emerald()
@@ -83,7 +80,7 @@ class BeehiveSelector:
         self.BeehiveHeap = MaxHeap(self.max, hive_list)
     
     def add_beehive(self, hive: Beehive):
-        if hive.volume != 0:
+        if hive.volume:
             self.BeehiveHeap.add(hive)
     
     def harvest_best_beehive(self):

@@ -21,13 +21,19 @@ class Percentiles(Generic[T]):
         percent_X = ceil(x/100 * len(self.points_tree))
         percent_Y = ceil(y/100 * len(self.points_tree)) #index 2
 
-        root = self.points_tree.root
-        smallest = self.points_tree.kth_smallest(percent_X, root) #returns a node class
-        largest = self.points_tree.kth_smallest(percent_Y, root, is_smallest=False)
+        print("p x", percent_X)
+        print("p y", percent_Y)
 
+        root = self.points_tree.root
         res = []
-        self.points_tree.inorder_limit(root, res, smallest.key, largest.key)
-        return res
+        if root:
+            smallest = self.points_tree.kth_smallest(percent_X, root) #returns a node class
+            largest = self.points_tree.kth_smallest(percent_Y, root, is_smallest=False)
+
+            
+            self.points_tree.inorder_limit(root, res, smallest.key, largest.key)
+        result = [point.key for point in res]
+        return result
 
         """
         # 1st attempt pass

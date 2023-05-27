@@ -64,7 +64,7 @@ def ratio_recursion(p, coor_list, a = 12.5, is_x = False): #a = 12.5
         p.add_point(coor)
 
     if not is_x:
-        if len(coor_list) == 1:
+        if len(coor_list) <= 1:
             return coor_list
         
         qualified = p.ratio(a,a)

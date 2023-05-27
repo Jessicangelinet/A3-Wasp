@@ -17,6 +17,7 @@ class RatioTest(unittest.TestCase):
         for point in points:
             p.add_point(point)
         res = p.ratio(13, 10)
+        print("/// example:", res)
         self.assertSetEqual(set(res), {14, 15, 16, 82, 87, 91, 92})
 
         res = p.ratio(0, 42)
