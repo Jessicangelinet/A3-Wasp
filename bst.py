@@ -187,10 +187,8 @@ class BinarySearchTree(Generic[K, I]):
         Finds the kth smallest value by key in the subtree rooted at current.
         """
         if k > current.subtree_size:
-            raise KeyError("out of bound")
+            raise ValueError("Out of Bounds")
         else:
-            print (current)
-            print (self.inorder_traversal(k, current))
             return self.inorder_traversal(k, current)
         
     def inorder_traversal(self, k: int, current: TreeNode): 
