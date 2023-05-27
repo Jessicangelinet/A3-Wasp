@@ -46,23 +46,22 @@ class Percentiles(Generic[T]):
         root = self.points_tree.root
         res = []
 
-
-        """if root:
+        if root:
             smallest = self.points_tree.kth_smallest(percent_X, root) #returns a node class
-            largest = self.points_tree.kth_smallest(percent_Y, root, is_smallest=False)
+            largest = self.points_tree.kth_smallest1(percent_Y, root, is_smallest=False)
 
             print("smallest largest", smallest, largest)
             self.points_tree.inorder_limit(root, res, smallest.key, largest.key)
         result = [point.key for point in res]
-        return result"""
+        return result
 
         
-        # 1st attempt pass
-        self.points_tree.inorder_traversal(self.points_tree.root, res)
-        # self.points_tree.inorder_traversal_limits_reversed(self.points_tree.root, res, percent_X, percent_Y) #dk if we can do dis tho lmao
+        """# 1st attempt pass
+        self.points_tree.inorder_traversal1(self.points_tree.root, res)
         res = res[percent_X:-percent_Y] #logn * N , logn + xlogn + ylogn,   !(logn + O)!
         result = [point.key for point in res]
-        return result
+        return result"""
+    
 if __name__ == "__main__":
     points = list(range(50))
     import random
