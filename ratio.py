@@ -30,7 +30,7 @@ class Percentiles(Generic[T]):
             smallest = self.points_tree.kth_smallest(percent_X, root) #returns a node class
             largest = self.points_tree.kth_smallest(percent_Y, root, is_smallest=False)
 
-            
+            print("smallest largest", smallest, largest)
             self.points_tree.inorder_limit(root, res, smallest.key, largest.key)
         result = [point.key for point in res]
         return result

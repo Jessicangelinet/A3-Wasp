@@ -17,10 +17,10 @@ class RatioTest(unittest.TestCase):
         for point in points:
             p.add_point(point)
         res = p.ratio(13, 10)
-        print("/// example:", res)
         self.assertSetEqual(set(res), {14, 15, 16, 82, 87, 91, 92})
 
         res = p.ratio(0, 42)
+        print("😱", res)
         self.assertSetEqual(set(res), {4, 9, 14, 15, 16})
 
     @timeout()
@@ -36,11 +36,8 @@ class RatioTest(unittest.TestCase):
         p.remove_point(92)
 
         res = p.ratio(13, 10)
-        print("🤨",res)
         self.assertSetEqual(set(res), {15, 16, 82, 87, 91})
 
         p.remove_point(82)
         res = p.ratio(13, 10)
         self.assertSetEqual(set(res), {14, 15, 16, 87, 91})
-        # res = p.ratio(50,550)
-        # print(res)
