@@ -10,6 +10,25 @@ class TestBeehiveSelector(unittest.TestCase):
     @number("5.1")
     def test_simple(self):
         s = BeehiveSelector(5)
+        # b1, b2, b3, b4, b5 = (
+        #     Beehive(15, 12, 13, capacity=40, nutrient_factor=5, volume=15),
+        #     Beehive(25, 22, 23, capacity=15, nutrient_factor=8, volume=40),
+        #     Beehive(35, 32, 33, capacity=40, nutrient_factor=3, volume=40),
+        #     Beehive(45, 42, 43, capacity=1, nutrient_factor=85, volume=10),
+        #     Beehive(55, 52, 53, capacity=400, nutrient_factor=5000, volume=0),
+        # )
+        b1, b2, b3, b4 = (
+            Beehive(15, 12, 13, capacity=40, nutrient_factor=5, volume=0),
+            Beehive(25, 22, 23, capacity=15, nutrient_factor=8, volume=0),
+            Beehive(35, 32, 33, capacity=40, nutrient_factor=3, volume=0),
+            Beehive(45, 42, 43, capacity=1, nutrient_factor=85, volume=0),
+        )
+        for hive in [b1, b2, b3, b4]:
+            s.add_beehive(hive)
+
+        # for i in s.BeehiveHeap.:
+        #     print(i)
+
         b1, b2, b3, b4, b5 = (
             Beehive(15, 12, 13, capacity=40, nutrient_factor=5, volume=15),
             Beehive(25, 22, 23, capacity=15, nutrient_factor=8, volume=40),
@@ -17,8 +36,6 @@ class TestBeehiveSelector(unittest.TestCase):
             Beehive(45, 42, 43, capacity=1, nutrient_factor=85, volume=10),
             Beehive(55, 52, 53, capacity=400, nutrient_factor=5000, volume=0),
         )
-        for hive in [b1, b2, b3, b4, b5]:
-            s.add_beehive(hive)
         
         all_emeralds = []
         for _ in range(15):
