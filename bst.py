@@ -182,42 +182,27 @@ class BinarySearchTree(Generic[K, I]):
             real_prefix = prefix[:-2] + final
             print('{0}'.format(real_prefix), file=to)
 
-    def inorder_traversal(self, root, ordered_list): 
-        if root is None:
-            return
-
-        self.inorder_traversal(root.left,ordered_list)  # Recursively traverse the left subtree
-        ordered_list.append(root)  # Visit the current node
-
-        if root.right:
-            self.inorder_traversal(root.right,ordered_list)  # Recursively traverse the right subtree
-    
     def kth_smallest(self, k: int, current: TreeNode) -> TreeNode:
         """
         Finds the kth smallest value by key in the subtree rooted at current.
         """
         if k > current.subtree_size:
             raise KeyError("out of bound")
-        
         else:
-            global_indexed_nodes = []
-            self.inorder_traversal(current, global_indexed_nodes)
-            
-            return global_indexed_nodes[k-1] #because index starts from 0 that corresponds to 1st smallest
-
-
-        """kth_tree = copy(self) #keep making a copy everytime #O(n)
-        copy_current = copy(current)
-
-        if k > current.subtree_size:
-            raise KeyError("out of bound")
+            print (current)
+            print (self.inorder_traversal(k, current))
+            return self.inorder_traversal(k, current)
         
-        else: 
-            if k == 1:
-                return current
-            # elif k < current.subtree_size:
-            #     current_min = self.get_minimal(current)
-            #     del_key = current_min.key #want to use getitem here but it returns the value
-            #     del kth_tree[del_key] 
-            else:
-                return self.kth_smallest(k-1,current) #bcs in here, the deleted kth_tree isnt used at all"""
+    def inorder_traversal(self, k: int, current: TreeNode): 
+
+        node_index = current.subtree_size - (current.right.subtree_size if current.right else 0)
+
+        if k == node_index:
+            return current
+        
+        elif k < node_index:
+            return self.inorder_traversal(k, current.left)
+
+        elif k > node_index:
+            return self.inorder_traversal(k-node_index, current.right)
+        
