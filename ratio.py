@@ -21,8 +21,8 @@ class Percentiles(Generic[T]):
         percent_X = ceil(x/100 * len(self.points_tree))
         percent_Y = ceil(y/100 * len(self.points_tree)) #index 2
 
-        print("p x", percent_X)
-        print("p y", percent_Y)
+        print("p x", x, percent_X)
+        print("p y", y, percent_Y)
 
         root = self.points_tree.root
         res = []
