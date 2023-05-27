@@ -18,23 +18,23 @@ def make_ordering(my_coordinate_list: list[Point]) -> list[Point]:
         # qualified_x = ratio_recursion(px, x_coors, is_x= True) #i suspect doing the ratio in a seperate function is the problem
         qualified_x = ratio_helper(px, x_coors) #so i do this instead, but it gives the same output. so i believe thats the only problm left
 
-        y_coors = [coor[1] for coor in my_coordinate_list if coor[0] in qualified_x]
+        y_coors = [coor[1] for coor in my_coordinate_list]
         # qualified_y = ratio_recursion(py, y_coors)
         qualified_y = ratio_helper(py, y_coors)
 
-        if len(qualified_y) == 1: #if after filtering x and y we are left with 1 coor, then thats the best coor to be the root
-            for coor in my_coordinate_list:
-                if coor[1] == qualified_y[0]:
-                    root = coor
-        else:
-            z_coors = [coor[2] for coor in my_coordinate_list if coor[0] in qualified_x and coor[1] in qualified_y]
-            # qualified_z = ratio_recursion(pz, z_coors)
-            qualified_z = ratio_helper(pz, z_coors)
+        # if len(qualified_y) == 1: #if after filtering x and y we are left with 1 coor, then thats the best coor to be the root
+        #     for coor in my_coordinate_list:
+        #         if coor[1] == qualified_y[0]:
+        #             root = coor
+        # else:
+        z_coors = [coor[2] for coor in my_coordinate_list]
+        # qualified_z = ratio_recursion(pz, z_coors)
+        qualified_z = ratio_helper(pz, z_coors)
 
-        if len(qualified_z) == 1:
-            for coor in my_coordinate_list:
-                if coor[2] == qualified_z[0]:
-                    root = coor
+        # if len(qualified_z) == 1:
+        #     for coor in my_coordinate_list:
+        #         if coor[2] == qualified_z[0]:
+        #             root = coor
 
         for coor in my_coordinate_list:
             if coor[0] in qualified_x and coor[1] in qualified_y and coor[2] in qualified_z:
@@ -74,7 +74,7 @@ def make_ordering(my_coordinate_list: list[Point]) -> list[Point]:
 
         return ordered_list"""
 
-def ratio_helper(p, coor_list, a = 12.5):
+def ratio_helper(p, coor_list, a = 1/8 * 100):
     for coor in coor_list:
         p.add_point(coor)
 

@@ -216,11 +216,11 @@ class BinarySearchTree(Generic[K, I]):
         if root is None:
             return
         
-        self.inorder_traversal(root.left,ordered_list)  # Recursively traverse the left subtree
+        self.inorder_traversal1(root.left,ordered_list)  # Recursively traverse the left subtree
 
         ordered_list.append(root)  # Visit the current node
 
-        self.inorder_traversal(root.right, ordered_list)  # Recursively traverse the right subtree
+        self.inorder_traversal1(root.right, ordered_list)  # Recursively traverse the right subtree
     
     def kth_smallest(self, k: int, current: TreeNode, is_smallest = True) -> TreeNode:
         """
@@ -233,8 +233,7 @@ class BinarySearchTree(Generic[K, I]):
         else:
             global_indexed_nodes = []
             self.inorder_traversal(current, global_indexed_nodes)
-
-
+            
             if is_smallest:
                 index = k-1
                 return global_indexed_nodes[index] #because index starts from 0 that corresponds to 1st smallest

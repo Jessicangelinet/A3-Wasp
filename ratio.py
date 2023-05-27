@@ -54,7 +54,6 @@ class Percentiles(Generic[T]):
             self.points_tree.inorder_limit(root, res, smallest.key, largest.key)
         result = [point.key for point in res]
         return result
-
         
         """# 1st attempt pass
         self.points_tree.inorder_traversal1(self.points_tree.root, res)
