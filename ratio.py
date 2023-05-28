@@ -40,8 +40,11 @@ class Percentiles(Generic[T]):
         """
         Takes in a lower and upper bound in order to return a list of Nodes which key range between the 2 bounds.
         
-        :Best and Worst Case: O(log(n) + O) where n is the total number of points within an instance of the Percentiles object
-        and O is the number of items returned by the function.
+        :Best Case: O(CompK) where CompK is the time complexity of comparing the key with the lower and upper bounds when
+        the only item that falls within the 2 bounds is the root node.
+        :Worst Case: O((log(n) + O) * CompK) where CompK is the time complexity of comparing the key
+        with the lower and upper bounds, n is the total number of points within an instance of the Percentiles object
+        and O is the number of items returned by the method.
         """
         percent_X = ceil(x/100 * len(self.points_tree)) + 1
         percent_Y = self.points_tree.root.subtree_size - ceil(y/100 * len(self.points_tree)) #index 2
@@ -61,8 +64,11 @@ class Percentiles(Generic[T]):
         """
         Attempts to return a list of Nodes which key range from a lower bound to an upper bound.
 
-        :Best and Worst Case: O(log(n) + O) where n is the total number of points within an instance of the Percentiles object
-        and O is the number of items returned by the function.
+        :Best Case: O(CompK) where CompK is the time complexity of comparing the key with the lower and upper bounds when
+        the only item that falls within the 2 bounds is the root node.
+        :Worst Case: O((log(n) + O) * CompK) where CompK is the time complexity of comparing the key
+        with the lower and upper bounds, n is the total number of points within an instance of the Percentiles object
+        and O is the number of items returned by the method.
         """
         if current != None:
             if current.key > lower:
