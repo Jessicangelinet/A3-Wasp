@@ -11,6 +11,10 @@ class MaxHeap(Generic[T]):
     MIN_CAPACITY = 1
 
     def __init__(self, max_size: int) -> None:
+        """
+        :complexity: 
+        :worst case = best case: O(n) for initialising an instance of ArrayR
+        """
         self.length = 0
         self.the_array = ArrayR(max(self.MIN_CAPACITY, max_size) + 1)
 
