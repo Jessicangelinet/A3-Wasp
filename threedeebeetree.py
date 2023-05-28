@@ -26,7 +26,8 @@ class BeeNode:
         """
             Returns a child node of the current node at a specific point or None
 
-            :Best and Worst Case: O(1) as the octant_check method and get_item of ArrayR is O(1)
+            :Best and Worst Case: O(CompK) as the octant_check has a time complexity of O(CompK) for its
+            best and worst case where CompK is the comparison of two keys.
         """
         octant = octant_check(self.key, point)
         return self.child_nodes[octant]
@@ -82,9 +83,10 @@ class ThreeDeeBeeTree(Generic[I]):
         """ 
             Attempts to get an item by traversing down a tree until it reaches the item.
 
-            :Best Case: O(1) when the item looked for is the root node.
-            :Worst Case: O(log(n)) where n is the maximum depth of the tree when the method reaches
-            the lowest leaf regardless of whether the item is there or not
+            :Best Case: O(CompK) where CompK is the time complexity of comparing
+            the keys when the node to be insert is a child of the root node or when the node is inserted as the root node.
+            :Worst Case: O(log(n) * CompK) where CompK is the time complexity of comparing
+            the keys and n is the maximum depth of the tree when the item is to be inserted at the lowest level leaf
         """
         if current is None:
             raise KeyError('Key not found: {0}'.format(key))
@@ -104,8 +106,10 @@ class ThreeDeeBeeTree(Generic[I]):
         """
             Attempts to find the location the node should be inserted at and then inserts it.
 
-            :Best Case: O(1) when the node is a child of the root node or when the node is the root node
-            :Worst Case: O(log(n)) where n is the maximum depth of the tree when the item is to be inserted at the lowest leaf
+            :Best Case: O(CompK) where CompK is the time complexity of comparing
+            the keys when the node to be insert is a child of the root node or when the node is inserted as the root node.
+            :Worst Case: O(log(n) * CompK) where CompK is the time complexity of comparing
+            the keys and n is the maximum depth of the tree when the item is to be inserted at the lowest level leaf
         """
         if current is None:  # base case: at the leaf
             current = BeeNode(key, item)
@@ -123,9 +127,12 @@ class ThreeDeeBeeTree(Generic[I]):
     def is_leaf(self, current: BeeNode) -> bool:
         """ Simple check whether or not the node is a leaf. 
 
-            :Best Case: O(1) where the first element of the array that holds its child nodes is not None.
-            :Worst Case: O(n) where the last element of the array that holds its child nodes is not None or
-            when the function iterates to the end and no non None nodes have been found.
+            :Best Case: O(CompK) where CompK is the time complexity of comparing each element to None
+             when the first element of the array that holds its child nodes is not None.
+            :Worst Case: O(CompK) where CompK is the time complexity of comparing each element to None
+            where the last element of the array that holds its child nodes is not None or
+            when the function iterates to the end and no non None nodes have been found since the tuple size
+            is fixed to 8.
         """
         return all(nodes is None for nodes in current.child_nodes)
 
@@ -134,7 +141,8 @@ def octant_check (current: Tuple, key: Point) -> int:
         Takes in 2 tuples of fixed size 3, a key and the key of the current node, and compares their 
         value at each index to generate a binary string that is converted into an interger from 0 to 7.
 
-        :Best Case == Worst Case: O(1) as it will always iterate 3 times due to the fixed size of the tuple.
+        :Best Case and Worst Case: O(CompK) where CompK is the time complexity
+        of the 2 keys as this method will always iterate 3 times due to the fixed size of the tuple.
     """
     octant = ""
     for i in range(len(key)): #O(1) since the tuples have a constant fix size of 3
