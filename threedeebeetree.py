@@ -94,10 +94,21 @@ class ThreeDeeBeeTree(Generic[I]):
         return current
         
     def is_leaf(self, current: BeeNode) -> bool:
-        """ Simple check whether or not the node is a leaf. """
-        raise NotImplementedError()
+        """ Simple check whether or not the node is a leaf. 
+
+            :Best Case: O(1) where the first element of the array that holds its child nodes is not None.
+            :Worst Case: O(n) where the last element of the array that holds its child nodes is not None or
+            when the function iterates to the end and no non None nodes have been found.
+        """
+        return all(nodes is None for nodes in current.child_nodes)
 
 def octant_check (current: Tuple, key: Point) -> int:
+    """
+        Takes in 2 tuples of fixed size 3, a key and the key of the current node, and compares their 
+        value at each index to generate a binary string that is converted into an interger from 0 to 7.
+
+        :Best Case == Worst Case: O(1) as it will always iterate 3 times due to the fixed size of the tuple.
+    """
     octant = ""
     for i in range(len(key)): #O(1) since the tuples have a constant fix size of 3
         if key[i] > current[i]:
