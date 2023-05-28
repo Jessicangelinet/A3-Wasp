@@ -12,6 +12,7 @@ from typing import TypeVar, Generic
 from node import TreeNode
 import sys
 
+from copy import copy
 
 # generic types
 K = TypeVar('K')
@@ -92,8 +93,10 @@ class BinarySearchTree(Generic[K, I]):
             current = TreeNode(key, item=item)
             self.length += 1
         elif key < current.key:
+            current.subtree_size += 1 # the part I modified so that at all times, for any node current, current.subtree_size represents the number of nodes within the subtree. 
             current.left = self.insert_aux(current.left, key, item)
         elif key > current.key:
+            current.subtree_size += 1 # the part I modified so that at all times, for any node current, current.subtree_size represents the number of nodes within the subtree. 
             current.right = self.insert_aux(current.right, key, item)
         else:  # key == current.key
             raise ValueError('Inserting duplicate item')
@@ -106,23 +109,37 @@ class BinarySearchTree(Generic[K, I]):
         """
             Attempts to delete an item from the tree, it uses the Key to
             determine the node to delete.
-        """
 
+            :complexity:
+            In the best case, the node being deleted is a leaf node (i.e., it has no children) or has only one child. 
+            In this case, the delete operation can be performed in O(h) time, where h is the height of the tree. 
+            If the tree is balanced (i.e., the height is O(log n)), then the best-case time complexity of the delete method is O(log n).
+
+            In the worst case, the node being deleted has two children and the tree is unbalanced (i.e., it has a height of n). 
+            In this case, the delete operation involves finding the in-order predecessor or successor of the node, 
+            which can take O(n) time in an unbalanced tree. 
+            Therefore, the worst-case time complexity of the delete method is O(n).
+
+            In summary, the best-case time complexity of the delete method for a BST is O(log n) for a balanced tree and O(h) for an unbalanced tree, 
+            where h is the height of the tree. The worst-case time complexity is O(n) for an unbalanced tree.
+        """
         if current is None:  # key not found
             raise ValueError('Deleting non-existent item')
         elif key < current.key:
+            current.subtree_size -= 1 # the part I modified so that at all times, for any node current, current.subtree_size represents the number of nodes within the subtree. 
             current.left  = self.delete_aux(current.left, key)
         elif key > current.key:
+            current.subtree_size -= 1 # the part I modified so that at all times, for any node current, current.subtree_size represents the number of nodes within the subtree. 
             current.right = self.delete_aux(current.right, key)
         else:  # we found our key => do actual deletion
             if self.is_leaf(current):
-                self.length -= 1
+                self.length -= 1 # the part I modified so that at all times, for any node current, current.subtree_size represents the number of nodes within the subtree. 
                 return None
             elif current.left is None:
-                self.length -= 1
+                self.length -= 1 # the part I modified so that at all times, for any node current, current.subtree_size represents the number of nodes within the subtree. 
                 return current.right
             elif current.right is None:
-                self.length -= 1
+                self.length -= 1 # the part I modified so that at all times, for any node current, current.subtree_size represents the number of nodes within the subtree. 
                 return current.left
 
             # general case => find a successor
@@ -138,14 +155,37 @@ class BinarySearchTree(Generic[K, I]):
             Get successor of the current node.
             It should be a child node having the smallest key among all the
             larger keys.
+
+            :complexity: O(self.get_minimal())
+            - balanced BST
+            :best case == worst case: O(depth) = O(logn), where n is the number of nodes and depth is the depth levels the BST has
+
+            - inbalanced BST
+            :best case: O(1), when the BST is extremely inbalanced, and the left child from the root is only 1
+            :worst case: O(n), when the BST is extremely inbalanced that the BST resemble a linked list and traversing through it takes O(N) time
+            where n is the number of nodes
         """
-        raise NotImplementedError()
+        return self.get_minimal(current.right)
 
     def get_minimal(self, current: TreeNode) -> TreeNode:
         """
             Get a node having the smallest key in the current sub-tree.
+
+            :complexity
+            - balanced BST
+            :best case == worst case: O(depth) = O(logn), where n is the number of nodes and depth is the depth levels the BST has
+
+            - inbalanced BST
+            :best case: O(1), when the BST is extremely inbalanced, and the left child from the root is only 1
+            :worst case: O(n), when the BST is extremely inbalanced that the BST resemble a linked list and traversing through it takes O(N) time
+            where n is the number of nodes
         """
-        raise NotImplementedError()
+        if current is None:
+            return None
+        elif current.left is None:
+            return current
+        else:
+            return self.get_minimal(current.left)
 
     def is_leaf(self, current: TreeNode) -> bool:
         """ Simple check whether or not the node is a leaf. """
@@ -172,8 +212,3 @@ class BinarySearchTree(Generic[K, I]):
             real_prefix = prefix[:-2] + final
             print('{0}'.format(real_prefix), file=to)
 
-    def kth_smallest(self, k: int, current: TreeNode) -> TreeNode:
-        """
-        Finds the kth smallest value by key in the subtree rooted at current.
-        """
-        raise NotImplementedError()
