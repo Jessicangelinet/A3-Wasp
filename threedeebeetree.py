@@ -17,7 +17,7 @@ class BeeNode:
         self.subtree_size = subtree_size
 
     def get_child_for_key(self, point: Point) -> BeeNode | None:
-        octant = octant_check(self, point)
+        octant = octant_check(self.key, point)
         return self.child_nodes[octant]
 
 class ThreeDeeBeeTree(Generic[I]):
@@ -67,7 +67,7 @@ class ThreeDeeBeeTree(Generic[I]):
         elif key == current.key:
             return current
         else:
-            octant = octant_check(current, key)
+            octant = octant_check(current.key, key)
             if current.child_nodes[octant].key == key:
                 return current.child_nodes[octant]
             else:
@@ -85,7 +85,7 @@ class ThreeDeeBeeTree(Generic[I]):
             self.length += 1
 
         elif key != current.key:
-            octant = octant_check(current, key)
+            octant = octant_check(current.key, key)
             current.subtree_size += 1
             current.child_nodes[octant] = self.insert_aux(current.child_nodes[octant], key, item)
 
@@ -97,23 +97,23 @@ class ThreeDeeBeeTree(Generic[I]):
         """ Simple check whether or not the node is a leaf. """
         raise NotImplementedError()
 
-def octant_check (current: BeeNode, key: Point) -> int:
+def octant_check (current: Tuple, key: Point) -> int:
 
-    if key[0] >= current.key[0] and key[1] >= current.key[1] and key[2] >= current.key[2]:
+    if key[0] >= current[0] and key[1] >= current[1] and key[2] >= current[2]:
         return 7
-    elif key[0] <= current.key[0] and key[1] >= current.key[1] and key[2] >= current.key[2]:
+    elif key[0] <= current[0] and key[1] >= current[1] and key[2] >= current[2]:
         return 6
-    elif key[0] <= current.key[0] and key[1] <= current.key[1] and key[2] >= current.key[2]:
+    elif key[0] <= current[0] and key[1] <= current[1] and key[2] >= current[2]:
         return 5
-    elif key[0] >= current.key[0] and key[1] <= current.key[1] and key[2] >= current.key[2]:
+    elif key[0] >= current[0] and key[1] <= current[1] and key[2] >= current[2]:
         return 4
-    elif key[0] >= current.key[0] and key[1] >= current.key[1] and key[2] <= current.key[2]:
+    elif key[0] >= current[0] and key[1] >= current[1] and key[2] <= current[2]:
         return 3
-    elif key[0] <= current.key[0] and key[1] >= current.key[1] and key[2] <= current.key[2]:
+    elif key[0] <= current[0] and key[1] >= current[1] and key[2] <= current[2]:
         return 2
-    elif key[0] <= current.key[0] and key[1] <= current.key[1] and key[2] <= current.key[2]:
+    elif key[0] <= current[0] and key[1] <= current[1] and key[2] <= current[2]:
         return 1
-    elif key[0] >= current.key[0] and key[1] <= current.key[1] and key[2] <= current.key[2]:
+    elif key[0] >= current[0] and key[1] <= current[1] and key[2] <= current[2]:
         return 0
 
 if __name__ == "__main__":
