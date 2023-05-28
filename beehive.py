@@ -13,16 +13,87 @@ class Beehive:
     nutrient_factor: int
     volume: int = 0
 
+    def get_emerald(self) -> int:
+        """
+        :complexity best = worst: O(1) because no matter what the input, arithmetic operations take O(1) time
+        """
+        return min(self.capacity, self.volume) * self.nutrient_factor
+
+    def __lt__(self, other):
+        """
+        Defines behavior for the less-than operator, < between self and other's get_emerald() return values
+
+        :complexity best = worst: O(1) because no matter what the input, arithmetic operations take O(1) time
+        """
+        if isinstance(other, Beehive):
+            return self.get_emerald() < other.get_emerald()
+
+    def __eq__(self, other):
+        """
+        Defines behavior for the equality operator, == between self and other's get_emerald() return values
+
+        :complexity best = worst: O(1) because no matter what the input, comparison between integers takes O(1) time
+        """
+        if isinstance(other, Beehive):
+            return self.get_emerald() == other.get_emerald()
+
+    def __gt__(self, other):
+        """
+        Defines behavior for the greater-than operator, > between self and other's get_emerald() return values
+
+        :complexity best = worst: O(1) because no matter what the input, comparison between integers takes O(1) time
+        """
+        if isinstance(other, Beehive):
+            return self.get_emerald() > other.get_emerald()
+        
+    def __le__(self, other):
+        """
+        Defines behavior for the less-than-or-equal-to operator, <=.between self and other's get_emerald() return values
+
+        :complexity best = worst: O(1) because no matter what the input, comparison between integers takes O(1) time
+        """
+        if isinstance(other, Beehive):
+            return self.get_emerald() <= other.get_emerald()
+        
+    def __ge__(self, other):
+        """
+        Defines behavior for the greater-than-or-equal-to operator, >= between self and other's get_emerald() return values
+
+        :complexity best = worst: O(1) because no matter what the input, comparison between integers takes O(1) time
+        """
+        if isinstance(other, Beehive):
+            return self.get_emerald() >= other.get_emerald
+
 class BeehiveSelector:
 
     def __init__(self, max_beehives: int):
-        raise NotImplementedError()
+        self.BeehiveHeap = MaxHeap(max_beehives)
+        self.max = max_beehives
 
     def set_all_beehives(self, hive_list: list[Beehive]):
-        raise NotImplementedError()
+        """
+        
+        """
+        self.BeehiveHeap = MaxHeap(self.max, hive_list)
     
     def add_beehive(self, hive: Beehive):
-        raise NotImplementedError()
+        """
+        
+        """
+        if hive.volume:
+            self.BeehiveHeap.add(hive)
     
     def harvest_best_beehive(self):
-        raise NotImplementedError()
+        if self.BeehiveHeap.length != 0:
+            current_largest = self.BeehiveHeap.get_max()
+            emerald = current_largest.get_emerald()
+            
+            if current_largest.capacity <= current_largest.volume:
+                
+                new_value = current_largest
+                new_volume = new_value.volume - new_value.capacity
+                new_value.volume = new_volume
+
+                self.add_beehive(new_value)
+            return emerald
+            
