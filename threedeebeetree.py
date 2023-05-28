@@ -14,9 +14,20 @@ class BeeNode:
     child_nodes: ArrayR = field(default_factory=lambda: ArrayR(8))
 
     def set_subtree_size(self, subtree_size: int) -> None:
+        """
+            Sets the subtree_size of a specific instance of the class
+
+            :Best and Worst Case: O(1)
+        """
+
         self.subtree_size = subtree_size
 
     def get_child_for_key(self, point: Point) -> BeeNode | None:
+        """
+            Returns a child node of the current node at a specific point or None
+
+            :Best and Worst Case: O(1) as the octant_check method and get_item of ArrayR is O(1)
+        """
         octant = octant_check(self.key, point)
         return self.child_nodes[octant]
 
@@ -59,9 +70,22 @@ class ThreeDeeBeeTree(Generic[I]):
         return node.item
 
     def get_tree_node_by_key(self, key: Point) -> BeeNode:
+        """
+            Attempts to get an item in a tree using a key starting from the root
+            :Best Case: O(1) when the item looked for is the root node.
+            :Worst Case: O(log(n)) where n is the maximum depth of the tree when the method reaches
+            the lowest leaf regardless of whether the item is there or not
+        """
         return self.get_tree_node_by_key_aux(self.root, key)
     
     def get_tree_node_by_key_aux(self, current: BeeNode, key: Point) -> BeeNode:
+        """ 
+            Attempts to get an item by traversing down a tree until it reaches the item.
+
+            :Best Case: O(1) when the item looked for is the root node.
+            :Worst Case: O(log(n)) where n is the maximum depth of the tree when the method reaches
+            the lowest leaf regardless of whether the item is there or not
+        """
         if current is None:
             raise KeyError('Key not found: {0}'.format(key))
         elif key == current.key:
@@ -74,11 +98,14 @@ class ThreeDeeBeeTree(Generic[I]):
                 return self.get_tree_node_by_key_aux(current.child_nodes[octant], key)
             
     def __setitem__(self, key: Point, item: I) -> None:
-        self.root=self.insert_aux(self.root, key, item)
+        self.root = self.insert_aux(self.root, key, item)
 
     def insert_aux(self, current: BeeNode, key: Point, item: I):
         """
-            Attempts to insert an item into the tree, it uses the Key to insert it
+            Attempts to find the location the node should be inserted at and then inserts it.
+
+            :Best Case: O(1) when the node is a child of the root node or when the node is the root node
+            :Worst Case: O(log(n)) where n is the maximum depth of the tree when the item is to be inserted at the lowest leaf
         """
         if current is None:  # base case: at the leaf
             current = BeeNode(key, item)
