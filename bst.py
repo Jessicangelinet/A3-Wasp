@@ -215,16 +215,20 @@ class BinarySearchTree(Generic[K, I]):
     def kth_smallest(self, k: int, current: TreeNode) -> TreeNode:
         """
         Finds the kth smallest value by key in the subtree rooted at current.
+
+        :Best and Worst Case: O(D) where depth is the maximum depth of the tree.
         """
         if k > current.subtree_size:
             raise ValueError("Out of Bounds")
         else:
-            if k == 0:
-                k = 1
             return self.inorder_traversal(k, current)
         
     def inorder_traversal(self, k: int, current: TreeNode): 
+        """ 
+        Traverses a set amount of node to reach a node of specific global index through inorder traversal
 
+        :Best and Worst Case: O(D) where depth is the maximum depth of the tree.
+        """
         node_index = current.subtree_size - (current.right.subtree_size if current.right else 0)
 
         if k == node_index:
