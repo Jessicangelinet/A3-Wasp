@@ -216,7 +216,8 @@ class BinarySearchTree(Generic[K, I]):
         """
         Finds the kth smallest value by key in the subtree rooted at current.
 
-        :Best and Worst Case: O(D) where depth is the maximum depth of the tree.
+        :Best Case: O(1) when the looked for item is the root node
+        :Worst Case: O(D) where depth is the maximum depth of the tree when the node is at the lowest leaf.
         """
         if k > current.subtree_size:
             raise ValueError("Out of Bounds")
@@ -225,9 +226,10 @@ class BinarySearchTree(Generic[K, I]):
         
     def inorder_traversal(self, k: int, current: TreeNode): 
         """ 
-        Traverses a set amount of node to reach a node of specific global index through inorder traversal
+        Traverses a set amount of nodes to reach a node of specific global index through inorder traversal
 
-        :Best and Worst Case: O(D) where depth is the maximum depth of the tree.
+        :Best Case: O(1) when the looked for item is the root node
+        :Worst Case: O(D) where depth is the maximum depth of the tree when the node is at the lowest leaf.
         """
         node_index = current.subtree_size - (current.right.subtree_size if current.right else 0)
 
