@@ -67,25 +67,35 @@ class Beehive:
 class BeehiveSelector:
 
     def __init__(self, max_beehives: int):
+        """
+        :complexity best: = worst: O(n) initialising ArrayR 
+        """
         self.BeehiveHeap = MaxHeap(max_beehives)
         self.max = max_beehives
 
     def set_all_beehives(self, hive_list: list[Beehive]):
         """
-        
+        :complexity:
+        :best = worst case: O(M), where M is len(hive_list), because no matter how big M value is, all the code will still run
         """
         self.BeehiveHeap = MaxHeap(self.max, hive_list)
     
     def add_beehive(self, hive: Beehive):
         """
-        
+        :complexity:
+        :best = worst case: O(Heap.MaxHeap.add()) == O(logN), where N is the number of nodes in BeehiveHeap, because no matter what, all the code will still run
         """
         if hive.volume:
             self.BeehiveHeap.add(hive)
     
     def harvest_best_beehive(self):
+        """
+        :complexity:
+        :best = worst case: O(compK<=) + O(logN) + O(logN), where N is the number of nodes in BeehiveHeap, because no matter what, all the code will still run
+        where k is the key of each node in BeehiveHeap
+        """
         if self.BeehiveHeap.length != 0:
-            current_largest = self.BeehiveHeap.get_max()
+            current_largest = self.BeehiveHeap.get_max() #O(Heap.MaxHeap.get_max()) == O(logN)
             emerald = current_largest.get_emerald()
             
             if current_largest.capacity <= current_largest.volume:
@@ -94,6 +104,6 @@ class BeehiveSelector:
                 new_volume = new_value.volume - new_value.capacity
                 new_value.volume = new_volume
 
-                self.add_beehive(new_value)
+                self.add_beehive(new_value) #O(self.add_beehive()) == O(logN)
             return emerald
             
