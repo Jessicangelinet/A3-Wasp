@@ -26,6 +26,7 @@ class RatioTest(unittest.TestCase):
     @number("2.2")
     def test_removal(self):
         random.seed(2938742)
+        print ("start")
         p = Percentiles()
         points = [4, 9, 14, 15, 16, 82, 87, 91, 92, 99]
         random.shuffle(points)
