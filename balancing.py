@@ -4,6 +4,16 @@ from threedeebeetree import Point, octant_check
 from ratio import Percentiles
 
 def make_ordering(my_coordinate_list: list[Point]) -> list[Point]:
+    """
+        reorder the input list of coordinates in 1:7 ratio 
+
+        :complexity best: O(len(my_coordinate_list) + comp <=), where the input list has 17 or less coordinates, 
+        the function returns the input list
+
+        :complexity worst:
+        
+        where n is the number of coord
+    """
     if len(my_coordinate_list) <= 17: #base case
         return my_coordinate_list 
     else:
@@ -50,23 +60,15 @@ def make_ordering(my_coordinate_list: list[Point]) -> list[Point]:
         return ordered_list
 
 def ratio_helper(p, coor_list, a = 1/8 * 100):
-    for coor in coor_list:
-        p.add_point(coor)
+    """
+        reorder the input list of coordinates in 1:7 ratio 
 
-    qualified = p.ratio(a,a)
-    return qualified
-
-def ratio_recursion(p, coor_list, a = 12.5, is_x = False): #a = 12.5
-    for coor in coor_list:
-        p.add_point(coor)
-
-    if not is_x:
-        if len(coor_list) <= 1:
-            return coor_list
+        :complexity best = worst: O(n) + O(Percentiles.ratio()), because no matter 
         
-        qualified = p.ratio(a,a)
-        return qualified
-    
+        where n is the number of items in the input list
+    """
+    for coor in coor_list:
+        p.add_point(coor)
+
     qualified = p.ratio(a,a)
-    
     return qualified
