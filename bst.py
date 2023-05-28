@@ -236,14 +236,3 @@ class BinarySearchTree(Generic[K, I]):
         elif k > node_index:
             return self.inorder_traversal(k-node_index, current.right)
     
-    def inorder_limit(self, root, ordered_list, start, end):
-        if root:
-            if root.key > start:
-                self.inorder_limit(root.left,ordered_list, start, end)
-
-            if start < root.key <= end:
-                ordered_list.append(root)
-
-            if root.key < end:
-                self.inorder_limit(root.right,ordered_list, start, end)
-            

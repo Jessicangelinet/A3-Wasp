@@ -37,18 +37,36 @@ class Percentiles(Generic[T]):
         del self.points_tree[item]
 
     def ratio(self, x, y):
-        percent_X = ceil(x/100 * len(self.points_tree))
-        percent_Y = ceil(y/100 * len(self.points_tree)) #index 2
+        percent_X = ceil(x/100 * len(self.points_tree)) + 1
+        percent_Y = self.points_tree.root.subtree_size - ceil(y/100 * len(self.points_tree)) #index 2
 
         root = self.points_tree.root
         res = []
 
         smallest = self.points_tree.kth_smallest(percent_X, root) #returns a node class
-        largest = self.points_tree.kth_smallest(root.subtree_size - percent_Y, root)
+        largest = self.points_tree.kth_smallest(percent_Y, root)
 
-        self.points_tree.inorder_limit(root, res, smallest.key, largest.key)
-        result = [point.key for point in res]
-        return result
+        if smallest and largest:
+            return self.collect_node(self.points_tree.root, smallest.key, largest.key, [])
+        else:
+            return []
+
+    def collect_node(self, current: TreeNode, lower: int, upper: int, collected_nodes: list = []) -> list[int]:
+        """
+        :complexity: O(log(N) + O) where N is the total number of points currently in the Percentile object
+        and O is the number of items returned by the function.
+        """
+        if current != None:
+            if current.key > lower:
+                self.collect_node(current.left, lower, upper, collected_nodes)
+
+            if lower <= current.key <= upper:
+                collected_nodes.append(current.key)
+            
+            if current.key < upper:
+                self.collect_node(current.right, lower, upper, collected_nodes)
+            
+        return collected_nodes
 
 if __name__ == "__main__":
     points = list(range(50))
