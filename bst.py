@@ -242,47 +242,6 @@ class BinarySearchTree(Generic[K, I]):
             return global_indexed_nodes[-index]
 
 
-    def inorder_traversal_limits(self, root, ordered_list, start, end): 
-        
-        if root is None:
-            return
-
-        print(">>>", root.subtree_size)
-
-        # loop self.length - end:
-
-        if root is not self.root and root.subtree_size > start: 
-            self.inorder_traversal_limits(root.left, ordered_list, start, end)  # Recursively traverse the left subtree
-
-        # if  root.subtree_size >= start and root.subtree_size <= end:
-        #     print("goes to append")
-            ordered_list.append(root)  # Visit the current node
-
-        if root.subtree_size > end: #DOESNT DO ANYTHING
-            self.inorder_traversal_limits(root.right, ordered_list, start, end)  # Recursively traverse the right subtree
-            # ordered_list.append(root)
-
-
-    def inorder_traversal_limits_reversed(self, root, ordered_list, start, end): 
-        
-        if root is None:
-            return
-
-        print(">>>", root.subtree_size)
-
-        if root.subtree_size > end:
-            self.inorder_traversal_limits_reversed(root.right,ordered_list, start, end)  # Recursively traverse the left subtree
-
-        # if  root.subtree_size >= start and root.subtree_size <= end:
-        #     print("goes to append")
-            ordered_list.append(root)  # Visit the current node
-
-        # if root.subtree_size > start:
-        #     self.inorder_traversal_limits_reversed(root.left,ordered_list, start, end)  # Recursively traverse the right subtree
-            # ordered_list.append(root)
-
-
-
     def inorder_limit(self, root, ordered_list, start, end):
         if root:
             if root.key > start:

@@ -4,6 +4,7 @@ from threedeebeetree import Point
 from ratio import Percentiles
 
 def make_ordering(my_coordinate_list: list[Point]) -> list[Point]:
+    # print("👻",len(my_coordinate_list))
     if len(my_coordinate_list) <= 17: #base case
         return my_coordinate_list 
     else:
