@@ -37,6 +37,12 @@ class Percentiles(Generic[T]):
         del self.points_tree[item]
 
     def ratio(self, x, y):
+        """
+        Takes in a lower and upper bound in order to return a list of Nodes which key range between the 2 bounds.
+        
+        :Best and Worst Case: O(log(n) + O) where n is the total number of points within an instance of the Percentiles object
+        and O is the number of items returned by the function.
+        """
         percent_X = ceil(x/100 * len(self.points_tree)) + 1
         percent_Y = self.points_tree.root.subtree_size - ceil(y/100 * len(self.points_tree)) #index 2
 
@@ -53,6 +59,8 @@ class Percentiles(Generic[T]):
 
     def collect_node(self, current: TreeNode, lower: int, upper: int, collected_nodes: list = []) -> list[int]:
         """
+        Attempts to return a list of Nodes which key range from a lower bound to an upper bound.
+
         :Best and Worst Case: O(log(n) + O) where n is the total number of points within an instance of the Percentiles object
         and O is the number of items returned by the function.
         """
