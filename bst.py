@@ -212,3 +212,25 @@ class BinarySearchTree(Generic[K, I]):
             real_prefix = prefix[:-2] + final
             print('{0}'.format(real_prefix), file=to)
 
+    def kth_smallest(self, k: int, current: TreeNode) -> TreeNode:
+        """
+        Finds the kth smallest value by key in the subtree rooted at current.
+        """
+        if k > current.subtree_size:
+            raise ValueError("Out of Bounds")
+        else:
+            return self.inorder_traversal(k, current)
+        
+    def inorder_traversal(self, k: int, current: TreeNode): 
+
+        node_index = current.subtree_size - (current.right.subtree_size if current.right else 0)
+
+        if k == node_index:
+            return current
+        
+        elif k < node_index:
+            return self.inorder_traversal(k, current.left)
+
+        elif k > node_index:
+            return self.inorder_traversal(k-node_index, current.right)
+        
