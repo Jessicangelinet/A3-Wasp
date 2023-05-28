@@ -53,7 +53,7 @@ class Percentiles(Generic[T]):
 
     def collect_node(self, current: TreeNode, lower: int, upper: int, collected_nodes: list = []) -> list[int]:
         """
-        :Best and Worst Case: O(log(N) + O) where N is the total number of points within an instance of the Percentiles object
+        :Best and Worst Case: O(log(n) + O) where n is the total number of points within an instance of the Percentiles object
         and O is the number of items returned by the function.
         """
         if current != None:
